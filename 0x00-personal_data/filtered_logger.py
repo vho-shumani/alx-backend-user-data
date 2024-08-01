@@ -10,7 +10,8 @@ from typing import List
 PII_FIELDS = ("name", "email", "ssn", "password", "date_of_birth")
 
 
-def filter_datum(fields, redaction, message, separator):
+def filter_datum(fields: List[str], redaction: str, message: str,
+                 separator: str) -> str:
     """returns the log message obfuscated"""
     for field in fields:
         pattern = f'{field}=[^{separator}]*'
@@ -41,6 +42,7 @@ class RedactingFormatter(logging.Formatter):
 
 
 def get_logger() -> logging.Logger:
+    """returns logger object"""
     logger = logging.getLogger("user_data")
     logger.setLevel(logging.INFO)
     logger.propagate = False
@@ -54,6 +56,7 @@ def get_logger() -> logging.Logger:
 
 
 def get_db() -> mysql.connector.connection.MySQLConnection:
+    """Connection to MySQL environment"""
     username = os.getenv('PERSONAL_DATA_DB_USERNAME', 'root')
     password = os.getenv('PERSONAL_DATA_DB_PASSWORD', '')
     host = os.getenv('PERSONAL_DATA_DB_HOST', 'localhost')
@@ -67,7 +70,8 @@ def get_db() -> mysql.connector.connection.MySQLConnection:
     )
 
 
-def main():
+def main() -> None:
+    """main function"""
     db = get_db()
     cursor = db.cursor()
     cursor.execute("SELECT * FROM users;")
