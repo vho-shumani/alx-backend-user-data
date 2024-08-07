@@ -19,15 +19,18 @@ if AUTH_TYPE:
     from api.v1.auth import Auth
     auth = Auth()
 
+
 @app.errorhandler(403)
 def forbidden(error) -> str:
     """forbidden error handler"""
     return jsonify({"error": "Forbidden"}), 403
 
+
 @app.errorhandler(401)
 def unauthorized(error) -> str:
     """unauthorized handler"""
     return jsonify({"error": "Unauthorized"}), 401
+
 
 @app.errorhandler(404)
 def not_found(error) -> str:
@@ -35,12 +38,15 @@ def not_found(error) -> str:
     """
     return jsonify({"error": "Not found"}), 404
 
+
 @app.before_request
 def before_request():
     """run before each request
     """
     if auth:
-        excluded_paths = ['/api/v1/status/', '/api/v1/unauthorized/', '/api/v1/forbidden/']
+        excluded_paths = ['/api/v1/status/',
+                          '/api/v1/unauthorized/',
+                          '/api/v1/forbidden/']
         if auth.require_auth(request.path, excluded_paths):
             return
         if not auth.authorization_header(request):
