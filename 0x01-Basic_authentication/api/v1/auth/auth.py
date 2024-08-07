@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 """Class to manage the API authentication
 """
 from flask import request
@@ -18,7 +18,7 @@ class Auth():
         return False
 
     def authorization_header(self, request=None) -> str:
-        """
+        """Authorization header
         """
         if not request:
             return None
@@ -27,5 +27,6 @@ class Auth():
         return request.headers['Authorization']
 
     def current_user(self, request=None) -> TypeVar('User'):
-        """"""
+        """Handles current user
+        """
         return None
