@@ -24,7 +24,7 @@ class BasicAuth(Auth):
                                            base64_authorization_header: str
                                            ) -> str:
         """"return the decoded value of a Base64 string"""
-        if base64_authorization_header:
+        if not base64_authorization_header:
             return None
         if not isinstance(base64_authorization_header, str):
             return None
