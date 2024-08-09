@@ -8,8 +8,6 @@ from typing import TypeVar
 from models.user import User
 
 
-
-
 class BasicAuth(Auth):
     """Impletment Basic authentication"""
     def extract_base64_authorization_header(self,
@@ -50,12 +48,12 @@ class BasicAuth(Auth):
         if ":" not in decoded_base64_authorization_header:
             return (None, None)
         email, password = decoded_base64_authorization_header.split(':')
-        return(email, password)
+        return (email, password)
 
-    def user_object_from_credentials(self, 
-                                     user_email: str, 
+    def user_object_from_credentials(self,
+                                     user_email: str,
                                      user_pwd: str
-                                    ) -> TypeVar('User'):
+                                     ) -> TypeVar('User'):
         """Return the User instance based in his email and password"""
         if not user_email or not isinstance(user_email, str):
             return None
