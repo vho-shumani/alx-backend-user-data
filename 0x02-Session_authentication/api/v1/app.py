@@ -2,6 +2,7 @@
 """
 Route module for the API
 """
+from api.v1.auth.session_db_auth import SessionDBAuth
 from api.v1.auth.session_exp_auth import SessionExpAuth
 from os import getenv
 from api.v1.views import app_views
@@ -79,11 +80,15 @@ if __name__ == "__main__":
         from api.v1.auth.session_auth import SessionAuth
         auth = SessionAuth()
     elif auth_type == "session_exp_auth":
+        from api.v1.auth.session_exp_auth import SessionExpAuth
         auth = SessionExpAuth()
+    elif auth_type == "session_db_auth":
+        auth = SessionDBAuth()
     elif auth_type == "basic_auth":
         from api.v1.auth.basic_auth import BasicAuth
         auth = BasicAuth()
     else:
         from api.v1.auth.auth import Auth
         auth = Auth()
+    
     app.run(host=host, port=port)
