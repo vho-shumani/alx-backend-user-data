@@ -1,4 +1,4 @@
-#!/use/bin/env python3
+#!/usr/bin/env python3
 """Module contain session authorization class"""
 from .auth import Auth
 
