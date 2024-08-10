@@ -3,6 +3,7 @@
 """
 from flask import request
 from typing import List, TypeVar
+import os
 
 
 class Auth():
@@ -35,6 +36,13 @@ class Auth():
         if 'Authorization' not in request.headers:
             return None
         return request.headers.get('Authorization')
+
+    def session_cookie(self, request=None):
+        """Retrieves the value of the cookie header"""
+        if not request:
+            return None
+        cookie_name = os.getenv('SESSION_NAME')
+        return request.cookies.get(cookie_name)
 
     def current_user(self, request=None) -> TypeVar('User'):
         """Handles current user
