@@ -2,6 +2,7 @@
 """
 Route module for the API
 """
+from api.v1.auth.session_exp_auth import SessionExpAuth
 from os import getenv
 from api.v1.views import app_views
 from flask import Flask, jsonify, abort, request
@@ -72,4 +73,17 @@ def before_request():
 if __name__ == "__main__":
     host = getenv("API_HOST", "0.0.0.0")
     port = getenv("API_PORT", "5000")
+    auth_type = getenv("AUTH_TYPE")
+    
+    if auth_type == "session_auth":
+        from api.v1.auth.session_auth import SessionAuth
+        auth = SessionAuth()
+    elif auth_type == "session_exp_auth":
+        auth = SessionExpAuth()
+    elif auth_type == "basic_auth":
+        from api.v1.auth.basic_auth import BasicAuth
+        auth = BasicAuth()
+    else:
+        from api.v1.auth.auth import Auth
+        auth = Auth()
     app.run(host=host, port=port)
