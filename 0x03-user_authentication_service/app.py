@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 """Flask app"""
 from sqlalchemy.orm.exc import NoResultFound
-from flask import Flask, jsonify, request, abort, make_response, redirect, url_for
+from flask import Flask, jsonify, request, abort, redirect, url_for
 from auth import Auth
 
 
 AUTH = Auth()
 app = Flask(__name__)
 
-@app.route('/')
+@app.route('/', methods=['GET'])
 def index():
     """home page"""
     return jsonify({"message": "Bienvenue"})
@@ -74,7 +74,7 @@ def reset_password():
     except NoResultFound:
         abort(403)
 
-@app.route('reset_password', methods=["PUT"], strict_slashes=False)
+@app.route('/reset_password', methods=["PUT"], strict_slashes=False)
 def update_password():
     """updates password"""
     email = request.form['email']
