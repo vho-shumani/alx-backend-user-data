@@ -61,7 +61,4 @@ class DB:
             self._session.commit()
             return None
         except NoResultFound:
-            raise
-
-        finally:
-            self._session.close()
+            raise ValueError
