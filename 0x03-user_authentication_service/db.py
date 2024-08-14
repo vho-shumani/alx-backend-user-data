@@ -52,13 +52,11 @@ class DB:
 
     def update_user(self, user_id, **kwargs) -> None:
         """Updates a user in the database"""
-        try:
-            user = self.find_user_by(id=user_id)
-            for key, value in kwargs.items():
-                if not hasattr(User, key):
-                    raise ValueError
-                setattr(user, key, value)
-            self._session.commit()
-            return None
-        except Exception:
-            raise ValueError
+        user = self.find_user_by(id=user_id)
+        for key, value in kwargs.items():
+            if not hasattr(User, key):
+                raise ValueError
+            setattr(user, key, value)
+        self._session.commit()
+
+
