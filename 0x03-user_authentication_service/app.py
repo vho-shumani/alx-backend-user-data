@@ -8,10 +8,12 @@ from auth import Auth
 AUTH = Auth()
 app = Flask(__name__)
 
+
 @app.route('/', methods=['GET'])
 def index():
     """home page"""
     return jsonify({"message": "Bienvenue"})
+
 
 @app.route('/users', methods=['POST'], strict_slashes=False)
 def registration():
@@ -23,7 +25,8 @@ def registration():
         return jsonify({"email": email, "message": "user created"})
     except ValueError:
         return jsonify({"message": "email already registered"}), 400
-    
+
+
 @app.route('/sessions', methods=['POST'], strict_slashes=False)
 def sessions_login():
     """Implements user login"""
@@ -36,6 +39,7 @@ def sessions_login():
     response.set_cookie('session_id', session_id)
     return response
 
+
 @app.route('/sessions', methods=['DELETE'], strict_slashes=False)
 def sessions_logout():
     """Implement user logout"""
@@ -46,6 +50,7 @@ def sessions_logout():
     AUTH.destroy_session(user.id)
     return redirect(url_for('/'))
 
+
 @app.route('/profile', strict_slashes=False)
 def profile():
     """Retrieves user profile"""
@@ -53,13 +58,14 @@ def profile():
 
     if session_id is None:
         abort(403)
-    
+
     user = AUTH.get_user_from_session_id(session_id)
 
     if user is None:
         abort(403)
-    
+
     return jsonify({"email": user.email}), 200
+
 
 @app.route("/reset_password", methods=['POST'], strict_slashes=False)
 def reset_password():
@@ -73,6 +79,7 @@ def reset_password():
         return jsonify({"email": email, "reset_token": reset_token}), 200
     except NoResultFound:
         abort(403)
+
 
 @app.route('/reset_password', methods=["PUT"], strict_slashes=False)
 def update_password():
