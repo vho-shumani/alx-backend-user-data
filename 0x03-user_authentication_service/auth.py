@@ -6,7 +6,7 @@ import logging
 from user import User
 from sqlalchemy.orm.exc import NoResultFound
 import uuid
-from typing import Union
+from typing import Union, Optional
 
 
 def _hash_password(password: str) -> bytes:
@@ -47,7 +47,7 @@ class Auth:
         except NoResultFound:
             return False
 
-    def create_session(self, email: str) -> Union[str, None]:
+    def create_session(self, email: str) -> Optional[str]:
         """Create a session id for a user"""
         try:
             user = self._db.find_user_by(email=email)
