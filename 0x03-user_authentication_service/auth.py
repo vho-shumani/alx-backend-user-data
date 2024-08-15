@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Module takes in a password string arguments and returns bytes"""
+"""Authentication Module"""
 import bcrypt
 from db import DB
 import logging
@@ -47,7 +47,7 @@ class Auth:
         except NoResultFound:
             return False
 
-    def create_session(self, email: str) -> Optional[str]:
+    def create_session(self, email: str) -> Union[str, None]:
         """Create a session id for a user"""
         try:
             user = self._db.find_user_by(email=email)
@@ -55,7 +55,7 @@ class Auth:
             self._db.update_user(user.id, session_id=session_id)
             return session_id
         except NoResultFound:
-            return
+            return None
 
     def get_user_from_session_id(self, session_id: str) -> Union[User, None]:
         """Retrieves user using session_id"""
