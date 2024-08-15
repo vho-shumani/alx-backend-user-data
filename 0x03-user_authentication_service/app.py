@@ -74,14 +74,11 @@ def profile():
 @app.route("/reset_password", methods=['POST'], strict_slashes=False)
 def reset_password():
     """resets password"""
-    from db import DB
-    db = DB()
     email = request.form['email']
     try:
-        db.find_user_by(email=email)
         reset_token = AUTH.get_reset_password_token(email)
         return jsonify({"email": email, "reset_token": reset_token}), 200
-    except NoResultFound:
+    except ValueError:
         abort(403)
 
 
