@@ -42,13 +42,11 @@ class DB:
         for key in kwargs.keys():
             if not hasattr(User, key):
                 raise InvalidRequestError
-        try:
-            user = self._session.query(User).filter_by(**kwargs).first()
-            if not user:
-                raise NoResultFound
-            return user
-        finally:
-            self._session.close()
+
+        user = self._session.query(User).filter_by(**kwargs).first()
+        if not user:
+            raise NoResultFound
+        return user
 
     def update_user(self, user_id: int, **kwargs) -> None:
         """Updates a user in the database"""
